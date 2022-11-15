@@ -1,8 +1,7 @@
 import click
+from  turtle import right,left,forward
 import turtle
-from random import randrange
-from click.types import INT
-CADENA_INICIO='FX'
+from click.types import INT,STRING
 reglas = {
     'X':'X+YF+',
     'Y':'-FX-Y',
@@ -10,51 +9,72 @@ reglas = {
     '+':'+',
     '-':'-'
 }
+
+
 bgclor="black"
 color="green"
 angulo=90
-segmento=10
 
-def graficar(cadena):
+
+#recibe una cadena,un tamaño de segmento y un angulo de giro  y realiza el grafico correspondiente 
+def graficar(cadena,segmento):
     # Creo una instancia de turtle
     ventana = turtle.Screen()
-    ventana.setup(width=1.0, height=1.0, startx=None, starty=None)
     ventana.title('Curva De Dragon')
-    ventana.screensize(1280,720)
-    ventana.setup(width=1.0, height=1.0, startx=None, starty=None)
-    tortuga = turtle.Turtle()
-    tortuga.screen.bgcolor(bgclor)
-    tortuga.color(color)
-    tortuga.speed(200)
+    ventana.screensize(800,600)
+    mbappe = turtle.Turtle()
+    mbappe.screen.bgcolor(bgclor)
+    mbappe.color(color)
+    mbappe.speed(200)
+    funcionalidad={'F':lambda segmento,angulo:dibuja(segmento),
+                   '+': lambda segmento,angulo:giro_izquierda(angulo),
+                   '-':lambda segmento,angulo:giro_derecha(angulo),
+                   'X':lambda segemeto,angulo:nada(),
+                   'Y':lambda segmento,angulo:nada()}
+
+    def dibuja (segmento):
+         mbappe.forward(segmento)
+    def giro_izquierda(angulo):
+        mbappe.left(angle=angulo)
+    def giro_derecha(angulo):
+        mbappe.right(angle=angulo)
+    def nada():
+        pass
+    
     try:
-        for simbolo in cadena:
-            if simbolo=='+':
-                tortuga.right(angle=angulo)
-            elif simbolo=='-':
-                tortuga.left(angle=angulo)
-            elif simbolo=='F':
-                tortuga.forward(segmento)
+        for simbolo in cadena: # recorro la cadena y por cada caracter ejecuto alguna accion o giro o dibujo un segmento 
+           funcionalidad[simbolo](segmento,angulo)
     except Exception as e:
-        print("algo paso")
+        print("algo paso",e)
     finally:
-        print("la tortuga se canso de caminar y decidió terminar el programa ")
-        turtle.write("click to exit", font=("Calibri", 16, "bold"))
+        print("mbappe se canso de correr y pidio el cambio ")
         ventana.exitonclick()
 
 
+
+"""Recibe una Cadena y devuelve su n-esima derivacion con 1<=n<=20"""
 def procesar_cadena(cadena):
     resultado=''
     for caracter in cadena:
-        resultado+=reglas[caracter]
+        resultado+=reglas[caracter] #remplazo el caracter por su corresponidente regla de derivacion
     return resultado
+
 # Parametros que puede recibir el programa(por ahora solo la cantidad de iteracciones definir que otros parametros se va a enviar)
 @click.command()
-@click.option('-i', '--iteraciones', required=True,type=click.IntRange(1,1000, clamp=True),help='Cantidad de iteraciones (1..10).')
-def inicio(iteraciones):
+@click.option('-i', '--iteraciones', required=True,type=click.IntRange(1,1000, clamp=True),default=10,help='Cantidad de iteraciones (1..10).')
+@click.option('-cad', '--cadena-inicial', default='FX', show_default=True,help='Cadena inicial.')
+#Datos De Entrada
+# Iteraciones: numero entro mayor a 1 
+# Angulo de giro: numero entero 1<=Angulo De Giro<=360
+# Cadena De Inicio: Defult=FX    
+def inicio(iteraciones,cadena_inicial):
+    segmento=200
     print('''Parametros de ejecucion: -> Cantidad de iteraciones: {}'''.format(iteraciones))
-    cadena=CADENA_INICIO
+    cadena=cadena_inicial
     for i in range(0,iteraciones):
          cadena=procesar_cadena(cadena)
-    graficar(cadena)
+    segmento=segmento/iteraciones
+    #print(segmento)
+    graficar(cadena,segmento)
 if __name__ == '__main__':
     inicio()
