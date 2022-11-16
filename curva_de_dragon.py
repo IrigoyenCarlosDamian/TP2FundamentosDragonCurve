@@ -17,7 +17,7 @@ angulo=90
 
 
 #recibe una cadena,un tamaño de segmento y un angulo de giro  y realiza el grafico correspondiente 
-def graficar(cadena,segmento):
+def graficar(cadena,segmento,angulo):
     # Creo una instancia de turtle
     ventana = turtle.Screen()
     ventana.title('Curva De Dragon')
@@ -61,13 +61,14 @@ def procesar_cadena(cadena):
 
 # Parametros que puede recibir el programa(por ahora solo la cantidad de iteracciones definir que otros parametros se va a enviar)
 @click.command()
-@click.option('-i', '--iteraciones', required=True,type=click.IntRange(1,1000, clamp=True),default=10,help='Cantidad de iteraciones (1..10).')
-@click.option('-cad', '--cadena-inicial', default='FX', show_default=True,help='Cadena inicial.')
+@click.option('-i', '--iteraciones', required=True,type=click.IntRange(1,23, clamp=True),default=10,help='Cantidad de iteraciones (1..23).',prompt="Ingrese el numero de iteracciones:")
+@click.option('-cad', '--cadena-inicial', default='FX', show_default=True,help='Cadena inicial.',prompt="Ingrese La Cadena A Derivar:")
+@click.option('-ang', '--angulo', required=True,type=click.IntRange(1,360, clamp=True),default=90,help='Angulo de giro (-90..90).',prompt="Ingrese el angulo de giro:")
 #Datos De Entrada
 # Iteraciones: numero entro mayor a 1 
 # Angulo de giro: numero entero 1<=Angulo De Giro<=360
 # Cadena De Inicio: Defult=FX    
-def inicio(iteraciones,cadena_inicial):
+def inicio(iteraciones,cadena_inicial,angulo):
     segmento=200
     print('''Parametros de ejecucion: -> Cantidad de iteraciones: {}'''.format(iteraciones))
     cadena=cadena_inicial
@@ -75,6 +76,6 @@ def inicio(iteraciones,cadena_inicial):
          cadena=procesar_cadena(cadena)
     segmento=segmento/iteraciones
     #print(segmento)
-    graficar(cadena,segmento)
+    graficar(cadena,segmento,angulo)
 if __name__ == '__main__':
     inicio()
