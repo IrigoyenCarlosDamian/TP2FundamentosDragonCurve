@@ -1,7 +1,7 @@
 import click
 from  turtle import right,left,forward
 import turtle
-from click.types import INT,STRING
+from click.types import INT,STRING,IntParamType,IntRange
 reglas = {
     'X':'X+YF+',
     'Y':'-FX-Y',
@@ -61,9 +61,9 @@ def procesar_cadena(cadena):
 
 # Parametros que puede recibir el programa(por ahora solo la cantidad de iteracciones definir que otros parametros se va a enviar)
 @click.command()
-@click.option('-i', '--iteraciones', required=True,type=click.IntRange(1,23, clamp=True),default=10,help='Cantidad de iteraciones (1..23).',prompt="Ingrese el numero de iteracciones:")
+@click.option('-i', '--iteraciones', required=True,type=click.IntRange(min=1,max=23),default=10,help='Cantidad de iteraciones (1..23).',prompt="Ingrese el numero de iteracciones:")
 @click.option('-cad', '--cadena-inicial', default='FX', show_default=True,help='Cadena inicial.',prompt="Ingrese La Cadena A Derivar:")
-@click.option('-ang', '--angulo', required=True,type=click.IntRange(1,360, clamp=True),default=90,help='Angulo de giro (-90..90).',prompt="Ingrese el angulo de giro:")
+@click.option('-ang', '--angulo', required=True,type=click.IntRange(min=-90,max=180),default=90,help='Angulo de giro (-90..90).',prompt="Ingrese el angulo de giro:")
 #Datos De Entrada
 # Iteraciones: numero entro mayor a 1 
 # Angulo de giro: numero entero 1<=Angulo De Giro<=360
