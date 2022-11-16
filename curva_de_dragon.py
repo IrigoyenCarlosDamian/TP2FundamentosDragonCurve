@@ -1,7 +1,6 @@
 import click
-from  turtle import right,left,forward
 import turtle
-from click.types import INT,STRING,IntParamType,IntRange
+from click.types import INT,STRING,IntRange
 reglas = {
     'X':'X+YF+',
     'Y':'-FX-Y',
@@ -10,10 +9,10 @@ reglas = {
     '-':'-'
 }
 
-
 bgclor="black"
 color="green"
 angulo=90
+
 
 
 #recibe una cadena,un tamaño de segmento y un angulo de giro  y realiza el grafico correspondiente 
@@ -21,8 +20,11 @@ def graficar(cadena,segmento,angulo):
     # Creo una instancia de turtle
     ventana = turtle.Screen()
     ventana.title('Curva De Dragon')
-    ventana.screensize(800,600)
+    ventana.setup(1280,720)
+    ventana.screensize(50000,20800)
+    turtle.register_shape('t.gif')
     mbappe = turtle.Turtle()
+    mbappe.shape('t.gif')
     mbappe.screen.bgcolor(bgclor)
     mbappe.color(color)
     mbappe.speed(200)
@@ -52,7 +54,7 @@ def graficar(cadena,segmento,angulo):
 
 
 
-"""Recibe una Cadena y devuelve su n-esima derivacion con 1<=n<=20"""
+"""Recibe una Cadena y devuelve su n-esima derivacion con 1<=n<=23"""
 def procesar_cadena(cadena):
     resultado=''
     for caracter in cadena:
@@ -66,16 +68,14 @@ def procesar_cadena(cadena):
 @click.option('-ang', '--angulo', required=True,type=click.IntRange(min=-90,max=180),default=90,help='Angulo de giro (-90..90).',prompt="Ingrese el angulo de giro:")
 #Datos De Entrada
 # Iteraciones: numero entro mayor a 1 
-# Angulo de giro: numero entero 1<=Angulo De Giro<=360
+# Angulo de giro: numero entero -90<=Angulo De Giro<=180
 # Cadena De Inicio: Defult=FX    
 def inicio(iteraciones,cadena_inicial,angulo):
     segmento=200
-    print('''Parametros de ejecucion: -> Cantidad de iteraciones: {}'''.format(iteraciones))
     cadena=cadena_inicial
     for i in range(0,iteraciones):
          cadena=procesar_cadena(cadena)
     segmento=segmento/iteraciones
-    #print(segmento)
     graficar(cadena,segmento,angulo)
 if __name__ == '__main__':
     inicio()
