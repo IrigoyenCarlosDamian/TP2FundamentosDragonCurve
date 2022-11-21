@@ -11,9 +11,6 @@ reglas = {
 
 bgclor="black"
 color="green"
-angulo=90
-
-
 
 #recibe una cadena,un tamaño de segmento y un angulo de giro  y realiza el grafico correspondiente 
 def graficar(cadena,segmento,angulo):
@@ -21,7 +18,7 @@ def graficar(cadena,segmento,angulo):
     ventana = turtle.Screen()
     ventana.title('Curva De Dragon')
     ventana.setup(1280,720)
-    ventana.screensize(50000,20800)
+    ventana.screensize(50000,20000)
     turtle.register_shape('t.gif')
     mbappe = turtle.Turtle()
     mbappe.shape('t.gif')
@@ -63,13 +60,15 @@ def procesar_cadena(cadena):
 
 # Parametros que puede recibir el programa(por ahora solo la cantidad de iteracciones definir que otros parametros se va a enviar)
 @click.command()
-@click.option('-i', '--iteraciones', required=True,type=click.IntRange(min=1,max=23),default=10,help='Cantidad de iteraciones (1..23).',prompt="Ingrese el numero de iteracciones:")
-@click.option('-cad', '--cadena-inicial', default='FX', show_default=True,help='Cadena inicial.',prompt="Ingrese La Cadena A Derivar:")
+@click.option('-ite', '--iteraciones', required=True,type=click.IntRange(min=1,max=23),default=10,help='Cantidad de iteraciones (1..23).',prompt="Ingrese el numero de iteracciones:")
+@click.option('-cad', '--cadena-inicial', default='FX', show_default=True,help='Cadena inicial. Con los caractetes F X Y + - ',prompt="Ingrese La Cadena A Derivar:")
 @click.option('-ang', '--angulo', required=True,type=click.IntRange(min=-90,max=180),default=90,help='Angulo de giro (-90..90).',prompt="Ingrese el angulo de giro:")
+
 #Datos De Entrada
 # Iteraciones: numero entro mayor a 1 
 # Angulo de giro: numero entero -90<=Angulo De Giro<=180
 # Cadena De Inicio: Defult=FX    
+
 def inicio(iteraciones,cadena_inicial,angulo):
     segmento=200
     cadena=cadena_inicial
