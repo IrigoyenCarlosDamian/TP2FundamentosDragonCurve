@@ -20,11 +20,12 @@ def graficar(cadena,segmento,angulo):
     ventana.setup(1280,720)
     ventana.screensize(50000,20000)
     turtle.register_shape('t.gif')
+    turtle.delay(0)
     mbappe = turtle.Turtle()
     mbappe.shape('t.gif')
     mbappe.screen.bgcolor(bgclor)
     mbappe.color(color)
-    mbappe.speed(200)
+    mbappe.speed(10)
     funcionalidad={'F':lambda segmento,angulo:dibuja(segmento),
                    '+': lambda segmento,angulo:giro_izquierda(angulo),
                    '-':lambda segmento,angulo:giro_derecha(angulo),
@@ -33,8 +34,10 @@ def graficar(cadena,segmento,angulo):
 
     def dibuja (segmento):
          mbappe.forward(segmento)
+
     def giro_izquierda(angulo):
         mbappe.left(angle=angulo)
+
     def giro_derecha(angulo):
         mbappe.right(angle=angulo)
     def nada():
@@ -76,5 +79,6 @@ def inicio(iteraciones,cadena_inicial,angulo):
          cadena=procesar_cadena(cadena)
     segmento=segmento/iteraciones
     graficar(cadena,segmento,angulo)
+
 if __name__ == '__main__':
     inicio()
